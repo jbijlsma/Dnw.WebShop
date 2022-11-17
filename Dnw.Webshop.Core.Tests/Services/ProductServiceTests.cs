@@ -12,21 +12,21 @@ public class ProductServiceTests
     public async Task GetTopSellingProducts() 
     {
         // Given
-        const int count = 5;
+        const int numberOfProductsToReturn = 5;
         
         var channelEngineService = Substitute.For<IChannelEngineService>();
         var expectedOrders = new[]
         {
-            new Order("p1", "Gtin1", "Product1", 2),
-            new Order("p1", "Gtin1", "Product1", 3),
-            new Order("p2", "Gtin2", "Product2", 2),
-            new Order("p2", "Gtin2", "Product2", 4),
-            new Order("p3", "Gtin3", "Product3", 1),
-            new Order("p8", "Gtin8", "Product8", 2),
-            new Order("p4", "Gtin4", "Product4", 2),
-            new Order("p5", "Gtin5", "Product5", 1),
-            new Order("p6", "Gtin6", "Product6", 4),
-            new Order("p7", "Gtin7", "Product7", 8),
+            CreateOrder(1, 2),
+            CreateOrder(1, 3),
+            CreateOrder(2, 2),
+            CreateOrder(2, 4),
+            CreateOrder(3, 1),
+            CreateOrder(8, 2),
+            CreateOrder(4, 2),
+            CreateOrder(5, 1),
+            CreateOrder(6, 4),
+            CreateOrder(7, 8)
         };
         channelEngineService
             .GetOrdersInProgress()
@@ -35,17 +35,27 @@ public class ProductServiceTests
         var productService = new ProductService(channelEngineService);
 
         // When
-        var actual = await productService.GetTopSelling(count);
+        var actual = await productService.GetTopSelling(numberOfProductsToReturn);
 
         // Then
         var expected = new[]
         {
-            new ProductWithOrderCount("p7","Product7", "Gtin7", 8),
-            new ProductWithOrderCount("p2","Product2", "Gtin2", 6),
-            new ProductWithOrderCount("p1","Product1", "Gtin1", 5),
-            new ProductWithOrderCount("p6","Product6", "Gtin6", 4),
-            new ProductWithOrderCount("p4","Product4", "Gtin4", 2),
+            CreateProductWithOrderCount(7, 8),
+            CreateProductWithOrderCount(2, 6),
+            CreateProductWithOrderCount(1, 5),
+            CreateProductWithOrderCount(6, 4),
+            CreateProductWithOrderCount(4, 2),
         };
         actual.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+    }
+
+    private static Order CreateOrder(int productId, int quantity)
+    {
+        return new Order(productId.ToString(), $"Gtin{productId}", $"Product{productId}", quantity);
+    }
+
+    private static ProductWithOrderCount CreateProductWithOrderCount(int productId, int expectedOrderCount)
+    {
+        return new ProductWithOrderCount(productId.ToString(), $"Product{productId}", $"Gtin{productId}", expectedOrderCount);
     }
 }
