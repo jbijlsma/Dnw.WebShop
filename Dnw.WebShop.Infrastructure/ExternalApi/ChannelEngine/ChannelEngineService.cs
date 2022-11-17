@@ -1,13 +1,9 @@
 using System.Net.Http.Json;
 using Dnw.WebShop.Core.Models;
+using Dnw.WebShop.Core.Services;
 using Dnw.WebShop.Infrastructure.ExternalApi.ChannelEngine.Models;
 
 namespace Dnw.WebShop.Infrastructure.ExternalApi.ChannelEngine;
-
-internal interface IChannelEngineService
-{
-    Task<IEnumerable<OrderItem>> GetOrdersInProgress();
-}
 
 internal class ChannelEngineService : IChannelEngineService
 {

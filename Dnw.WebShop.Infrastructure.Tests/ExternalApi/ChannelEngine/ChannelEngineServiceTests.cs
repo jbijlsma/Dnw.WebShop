@@ -1,4 +1,5 @@
 using System.Reflection;
+using Dnw.WebShop.Core.Services;
 using Dnw.WebShop.Infrastructure.ExternalApi.ChannelEngine;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;

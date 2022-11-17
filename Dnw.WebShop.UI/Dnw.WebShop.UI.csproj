@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Dnw.WebShop.Core\Dnw.WebShop.Core.csproj" />
+    <ProjectReference Include="..\Dnw.WebShop.Infrastructure\Dnw.WebShop.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

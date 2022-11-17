@@ -4,24 +4,37 @@ namespace Dnw.WebShop.Core.Services;
 
 public interface IProductService
 {
-    IEnumerable<ProductOrderCount> GetTopSellingProducts(int count);
+    /// <summary>
+    /// Returns the top selling products
+    /// </summary>
+    /// <param name="count">The number of products to return</param>
+    /// <returns>A list of products with the total quantity ordered</returns>
+    Task<IEnumerable<ProductOrderCount>> GetTopSellingProducts(int count);
 }
 
 public class ProductService : IProductService
 {
-    public IEnumerable<ProductOrderCount> GetTopSellingProducts(int count)
-    {
-        var products = new[]
-        {
-            new ProductOrderCount("Product1", "1", 1),
-            new ProductOrderCount("Product2", "2", 2),
-            new ProductOrderCount("Product3", "3", 3),
-            new ProductOrderCount("Product4", "4", 4),
-            new ProductOrderCount("Product5", "5", 5),
-            new ProductOrderCount("Product6", "6", 6),
-            new ProductOrderCount("Product7", "7", 7),
-        };
+    private readonly IChannelEngineService _channelEngineService;
 
-        return products.OrderByDescending(p => p.TotalQuantity).Take(count);
+    public ProductService(IChannelEngineService channelEngineService)
+    {
+        _channelEngineService = channelEngineService;
+    }
+    
+    public async Task<IEnumerable<ProductOrderCount>> GetTopSellingProducts(int count)
+    {
+        var orders = await _channelEngineService.GetOrdersInProgress();
+
+        var result = orders.ToList().GroupBy(order => order.ProductId).Select(group =>
+        {
+            var (_, productGtin, productName, _) = group.First();
+            var totalQuantity = group.Sum(order => order.Quantity);
+
+            return new ProductOrderCount(productName, productGtin, totalQuantity);
+        }).OrderByDescending(product => product.TotalQuantity)
+            .ThenBy(product => product.ProductName)
+            .Take(count);
+
+        return result;
     }
 }

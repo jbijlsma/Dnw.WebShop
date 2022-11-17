@@ -1,9 +1,11 @@
 using Dnw.WebShop.Core.Services;
+using Dnw.WebShop.Infrastructure.ExternalApi.ChannelEngine;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddChannelEngineService(builder.Configuration);
 
 builder.Services.AddControllersWithViews();
 

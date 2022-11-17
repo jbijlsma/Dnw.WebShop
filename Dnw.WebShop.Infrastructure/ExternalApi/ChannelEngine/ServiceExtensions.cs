@@ -1,3 +1,4 @@
+using Dnw.WebShop.Core.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -5,7 +6,7 @@ namespace Dnw.WebShop.Infrastructure.ExternalApi.ChannelEngine;
 
 public static class ServiceExtensions
 {
-    public static void AddChannelEngineService(this ServiceCollection services, IConfiguration configuration)
+    public static void AddChannelEngineService(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddHttpClient<IChannelEngineService, ChannelEngineService>(client =>
         {

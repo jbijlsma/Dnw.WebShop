@@ -14,9 +14,9 @@ public class HomeController : Controller
         _productService = productService;
     }
     
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var products = _productService.GetTopSellingProducts(5);
+        var products = await _productService.GetTopSellingProducts(5);
         return View(products);
     }
 
