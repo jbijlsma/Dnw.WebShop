@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Dnw.WebShop.Infrastructure.Tests.ExternalApi.ChannelEngine;
 
+[Trait("Category", "ExternalApi")]
 public class ChannelEngineServiceTests
 {
     private readonly ChannelEngineService _service;
