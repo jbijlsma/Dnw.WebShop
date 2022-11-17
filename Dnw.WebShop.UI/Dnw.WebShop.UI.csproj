@@ -6,4 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Dnw.WebShop.Core\Dnw.WebShop.Core.csproj" />
+  </ItemGroup>
+
 </Project>
