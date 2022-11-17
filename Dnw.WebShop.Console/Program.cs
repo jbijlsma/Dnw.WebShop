@@ -19,36 +19,33 @@ using var host = Host.CreateDefaultBuilder(args)
         services.AddChannelEngineService(configBuilder.Build());
     }).Build();
 
-await ExemplifyScoping(host.Services);
+using var serviceScope = host.Services.CreateScope();
+var provider = serviceScope.ServiceProvider;
+
+var productService = provider.GetRequiredService<IProductService>();
+var topSellingProducts = (await productService.GetTopSellingProducts(5)).ToList(); 
+Console.WriteLine();
+Console.WriteLine($"Found {topSellingProducts.Count} top selling products:");
+Console.WriteLine();
+    
+var productNames = string.Join(Environment.NewLine, topSellingProducts.Select((p, index) => $"{index+1} => {p.ProductName} ({p.TotalQuantity})"));
+Console.WriteLine(productNames);
+Console.WriteLine();
+    
+var randomIndex = Random.Shared.Next(0, topSellingProducts.Count);
+var randomProduct = topSellingProducts[randomIndex];
+Console.WriteLine($"Selected random product: {randomProduct.ProductName} ({randomProduct.ProductId})");
+Console.WriteLine();
+
+const int newStock = 24;
+Console.WriteLine($"Updating stock to : {newStock}");
+
+await productService.UpdateStock(randomProduct.ProductId, newStock);
+
+Console.WriteLine($"Stock updated to : {newStock}");
+
+Console.WriteLine();
+Console.WriteLine("Press any key to exit ..");
+Console.ReadLine();
 
 await host.RunAsync();
-
-static async Task ExemplifyScoping(IServiceProvider services)
-{
-    using var serviceScope = services.CreateScope();
-    var provider = serviceScope.ServiceProvider;
-
-    var productService = provider.GetRequiredService<IProductService>();
-    var topSellingProducts = (await productService.GetTopSellingProducts(5)).ToList(); 
-    Console.WriteLine();
-    Console.WriteLine($"Found {topSellingProducts.Count} top selling products:");
-    Console.WriteLine();
-    
-    var productNames = string.Join(Environment.NewLine, topSellingProducts.Select((p, index) => $"{index+1} => {p.ProductName} ({p.TotalQuantity})"));
-    Console.WriteLine(productNames);
-    Console.WriteLine();
-    
-    var randomIndex = Random.Shared.Next(0, topSellingProducts.Count);
-    var randomProduct = topSellingProducts[randomIndex];
-    Console.WriteLine($"Selected random product: {randomProduct.ProductName}");
-    Console.WriteLine();
-
-    const int newStock = 24;
-    Console.WriteLine($"Updating stock to : {newStock}");
-
-    Console.WriteLine($"Stock updated to : {newStock}");
-
-    Console.WriteLine();
-    Console.WriteLine("Press any key to exit ..");
-    Console.ReadLine();
-}
