@@ -1,3 +1,9 @@
+# Introduction
+
+Small sample project as part of a coding assessment for ChannelEngine.
+
+In case you are wondering why all the projects are prefixed with Dnw, it's because my Dutch company is called DotNetWorks (and Dnw sounds like a good abbreviation).
+
 # Running locally
 
 The base url for the ChannelEngine API can be set in the different appsettings.json files:
@@ -10,7 +16,7 @@ The base url for the ChannelEngine API can be set in the different appsettings.j
 }
 ```
 
-For running the UI, Console App and the tests marked with the "ExternalApi" trait, 
+For running the UI, Console App and the tests marked with the "ExternalApi" trait,
 a ChannelEngine api key is required in your secrets.json:
 
 ```json
@@ -20,6 +26,9 @@ a ChannelEngine api key is required in your secrets.json:
   }
 }
 ```
+
+When running the UI project make sure to set the ASPNETCORE_ENVIRONMENT environment variable to Development. 
+If it's not set to Development, appsettings.Development.json will not be loaded on startup and the ChannelEngine API base url will not be available.
 
 # Running tests
 
