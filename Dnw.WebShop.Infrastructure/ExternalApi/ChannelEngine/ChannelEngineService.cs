@@ -16,14 +16,44 @@ internal class ChannelEngineService : IChannelEngineService
 
     public async Task<IEnumerable<OrderItem>> GetOrdersInProgress()
     {
-        var ordersResponse = await _httpClient.GetFromJsonAsync<GetOrdersResponse>("/api/v2/orders?statuses=IN_PROGRESS");
+        const string url = "/api/v2/orders?statuses=IN_PROGRESS";
+        var ordersResponse = await _httpClient.GetFromJsonAsync<ChannelEngineResponse<ChannelEngineOrder>>(url);
 
         return Map(ordersResponse!);
     }
 
-    private static IEnumerable<OrderItem> Map(GetOrdersResponse getOrdersResponse)
+    public async Task UpdateProductStock(string productId, int stock)
     {
-        var orderLines = getOrdersResponse.Content.SelectMany(order => order.Lines);
+        var patchRequest = new ChannelEngineProductPatchRequest
+        {
+            PropertiesToUpdate = new [] { nameof(ChannelEngineProduct.Stock) },
+            MerchantProductRequestModels = new object[]
+            {
+                new ChannelEngineProduct
+                {
+                    MerchantProductNo = productId,
+                    Stock = stock
+                }
+            },
+        };
+
+        const string url = "/api/v2/products";
+        var response = await _httpClient.PatchAsJsonAsync(url, patchRequest);
+
+        response.EnsureSuccessStatusCode();
+    }
+
+    internal async Task<ChannelEngineProduct?> GetProductById(string productId)
+    {
+        var url = $"/api/v2/products?merchantProductNoList={productId}";
+        var response = await _httpClient.GetFromJsonAsync<ChannelEngineResponse<ChannelEngineProduct>>(url);
+        
+        return response!.Content.FirstOrDefault();
+    }
+
+    private static IEnumerable<OrderItem> Map(ChannelEngineResponse<ChannelEngineOrder> channelEngineResponse)
+    {
+        var orderLines = channelEngineResponse.Content.SelectMany(order => order.Lines);
         return orderLines.Select(Map);
     }
 
