@@ -37,7 +37,7 @@ var randomProduct = topSellingProducts[randomIndex];
 Console.WriteLine($"Selected random product: {randomProduct.ProductName} ({randomProduct.ProductId})");
 Console.WriteLine();
 
-const int newStock = 24;
+const int newStock = 25;
 Console.WriteLine($"Updating stock to : {newStock}");
 
 await productService.UpdateStock(randomProduct.ProductId, newStock);
