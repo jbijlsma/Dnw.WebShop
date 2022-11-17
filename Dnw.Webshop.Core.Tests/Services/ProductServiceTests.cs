@@ -17,16 +17,16 @@ public class ProductServiceTests
         var channelEngineService = Substitute.For<IChannelEngineService>();
         var expectedOrders = new[]
         {
-            new OrderItem("p1", "Gtin1", "Product1", 2),
-            new OrderItem("p1", "Gtin1", "Product1", 3),
-            new OrderItem("p2", "Gtin2", "Product2", 2),
-            new OrderItem("p2", "Gtin2", "Product2", 4),
-            new OrderItem("p3", "Gtin3", "Product3", 1),
-            new OrderItem("p8", "Gtin8", "Product8", 2),
-            new OrderItem("p4", "Gtin4", "Product4", 2),
-            new OrderItem("p5", "Gtin5", "Product5", 1),
-            new OrderItem("p6", "Gtin6", "Product6", 4),
-            new OrderItem("p7", "Gtin7", "Product7", 8),
+            new Order("p1", "Gtin1", "Product1", 2),
+            new Order("p1", "Gtin1", "Product1", 3),
+            new Order("p2", "Gtin2", "Product2", 2),
+            new Order("p2", "Gtin2", "Product2", 4),
+            new Order("p3", "Gtin3", "Product3", 1),
+            new Order("p8", "Gtin8", "Product8", 2),
+            new Order("p4", "Gtin4", "Product4", 2),
+            new Order("p5", "Gtin5", "Product5", 1),
+            new Order("p6", "Gtin6", "Product6", 4),
+            new Order("p7", "Gtin7", "Product7", 8),
         };
         channelEngineService
             .GetOrdersInProgress()
@@ -35,7 +35,7 @@ public class ProductServiceTests
         var productService = new ProductService(channelEngineService);
 
         // When
-        var actual = await productService.GetTopSellingProducts(count);
+        var actual = await productService.GetTopSelling(count);
 
         // Then
         var expected = new[]

@@ -14,7 +14,7 @@ internal class ChannelEngineService : IChannelEngineService
         _httpClient = httpClient;
     }
 
-    public async Task<IEnumerable<OrderItem>> GetOrdersInProgress()
+    public async Task<IEnumerable<Order>> GetOrdersInProgress()
     {
         const string url = "/api/v2/orders?statuses=IN_PROGRESS";
         var ordersResponse = await _httpClient.GetFromJsonAsync<ChannelEngineResponse<ChannelEngineOrder>>(url);
@@ -51,14 +51,14 @@ internal class ChannelEngineService : IChannelEngineService
         return response!.Content.FirstOrDefault();
     }
 
-    private static IEnumerable<OrderItem> Map(ChannelEngineResponse<ChannelEngineOrder> channelEngineResponse)
+    private static IEnumerable<Order> Map(ChannelEngineResponse<ChannelEngineOrder> channelEngineResponse)
     {
         var orderLines = channelEngineResponse.Content.SelectMany(order => order.Lines);
         return orderLines.Select(Map);
     }
 
-    private static OrderItem Map(ChannelEngineOrderLine orderLine)
+    private static Order Map(ChannelEngineOrderLine orderLine)
     {
-        return new OrderItem(orderLine.MerchantProductNo, orderLine.Gtin, orderLine.Description, orderLine.Quantity);
+        return new Order(orderLine.MerchantProductNo, orderLine.Gtin, orderLine.Description, orderLine.Quantity);
     }
 }

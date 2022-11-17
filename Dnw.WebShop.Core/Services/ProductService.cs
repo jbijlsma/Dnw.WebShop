@@ -9,7 +9,7 @@ public interface IProductService
     /// </summary>
     /// <param name="count">The number of products to return</param>
     /// <returns>A list of products with the total quantity ordered</returns>
-    Task<IEnumerable<ProductOrderCount>> GetTopSellingProducts(int count);
+    Task<IEnumerable<ProductOrderCount>> GetTopSelling(int count);
 
     /// <summary>
     /// Set the stock level of a product 
@@ -29,7 +29,7 @@ internal class ProductService : IProductService
         _channelEngineService = channelEngineService;
     }
     
-    public async Task<IEnumerable<ProductOrderCount>> GetTopSellingProducts(int count)
+    public async Task<IEnumerable<ProductOrderCount>> GetTopSelling(int count)
     {
         var orders = await _channelEngineService.GetOrdersInProgress();
 

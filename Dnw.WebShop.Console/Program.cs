@@ -19,7 +19,7 @@ services
 var provider = services.BuildServiceProvider();
 
 var productService = provider.GetRequiredService<IProductService>();
-var topSellingProducts = (await productService.GetTopSellingProducts(5)).ToList(); 
+var topSellingProducts = (await productService.GetTopSelling(5)).ToList(); 
 Console.WriteLine();
 Console.WriteLine($"Found {topSellingProducts.Count} top selling products:");
 Console.WriteLine();
