@@ -2,6 +2,7 @@
 // Based on: https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-usage
 
 using System.Reflection;
+using Dnw.WebShop.Core;
 using Dnw.WebShop.Core.Services;
 using Dnw.WebShop.Infrastructure.ExternalApi.ChannelEngine;
 using Microsoft.Extensions.Configuration;
@@ -14,9 +15,10 @@ using var host = Host.CreateDefaultBuilder(args)
         var configBuilder = new ConfigurationBuilder()
             .AddJsonFile("appsettings.Development.json", false, true)
             .AddUserSecrets(Assembly.GetExecutingAssembly());
-
-        services.AddScoped<IProductService, ProductService>();
-        services.AddChannelEngineService(configBuilder.Build());
+        
+        services
+            .AddCoreServices()
+            .AddChannelEngineService(configBuilder.Build());
     }).Build();
 
 using var serviceScope = host.Services.CreateScope();

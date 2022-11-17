@@ -20,7 +20,7 @@ public interface IProductService
     Task UpdateStock(string productId, int stock);
 }
 
-public class ProductService : IProductService
+internal class ProductService : IProductService
 {
     private readonly IChannelEngineService _channelEngineService;
 
