@@ -40,11 +40,11 @@ public class ProductServiceTests
         // Then
         var expected = new[]
         {
-            new ProductOrderCount("p7","Product7", "Gtin7", 8),
-            new ProductOrderCount("p2","Product2", "Gtin2", 6),
-            new ProductOrderCount("p1","Product1", "Gtin1", 5),
-            new ProductOrderCount("p6","Product6", "Gtin6", 4),
-            new ProductOrderCount("p4","Product4", "Gtin4", 2),
+            new ProductWithOrderCount("p7","Product7", "Gtin7", 8),
+            new ProductWithOrderCount("p2","Product2", "Gtin2", 6),
+            new ProductWithOrderCount("p1","Product1", "Gtin1", 5),
+            new ProductWithOrderCount("p6","Product6", "Gtin6", 4),
+            new ProductWithOrderCount("p4","Product4", "Gtin4", 2),
         };
         actual.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }

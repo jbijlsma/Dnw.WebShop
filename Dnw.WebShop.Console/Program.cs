@@ -24,7 +24,7 @@ Console.WriteLine();
 Console.WriteLine($"Found {topSellingProducts.Count} top selling products:");
 Console.WriteLine();
     
-var productNames = string.Join(Environment.NewLine, topSellingProducts.Select((p, index) => $"{index+1} => {p.ProductName} ({p.TotalQuantity})"));
+var productNames = string.Join(Environment.NewLine, topSellingProducts.Select((p, index) => $"{index+1} => {p.ProductName} ({p.OrderCount})"));
 Console.WriteLine(productNames);
 Console.WriteLine();
     

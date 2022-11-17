@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Dnw.WebShop.Core.Models.ProductOrderCount>
+﻿@model IEnumerable<Dnw.WebShop.Core.Models.ProductWithOrderCount>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -33,7 +33,7 @@
                     @Html.DisplayFor(modelItem => item.ProductGtin)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TotalQuantity)
+                    @Html.DisplayFor(modelItem => item.OrderCount)
                 </td>
                 <td>
                     <form asp-controller="Home" method="post">
