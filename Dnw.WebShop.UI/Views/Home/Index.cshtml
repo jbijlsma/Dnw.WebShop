@@ -36,6 +36,10 @@
                     @Html.DisplayFor(modelItem => item.TotalQuantity)
                 </td>
                 <td>
+                    <form asp-controller="Home" method="post">
+                        <input type="hidden" name="productId" value="@item.ProductId"/>
+                        <button type="submit">Update Stock</button>
+                    </form>
                 </td>
             </tr>
         }

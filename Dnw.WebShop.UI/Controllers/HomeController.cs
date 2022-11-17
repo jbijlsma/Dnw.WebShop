@@ -19,7 +19,14 @@ public class HomeController : Controller
         var products = await _productService.GetTopSellingProducts(5);
         return View(products);
     }
-
+    
+    [HttpPost]
+    public async Task<IActionResult> Index([FromForm] string productId)
+    {
+        await _productService.UpdateStock(productId, 25);
+        return RedirectToAction(nameof(Index));
+    }
+    
     public IActionResult Privacy()
     {
         return View();
