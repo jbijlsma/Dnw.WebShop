@@ -33,7 +33,7 @@ public class ChannelEngineServiceTests
         var actual = await _service.GetOrdersInProgress();
 
         // Then
-        actual.Should().HaveCount(7);
+        actual.Should().HaveCount(8);
     }
 
     [Fact]
